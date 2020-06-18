@@ -34,8 +34,26 @@ class _News extends StatelessWidget {
         _CardTitle(
           news: this.news,
         ),
-        _CardImage(news: this.news)
+        _CardImage(news: this.news),
+        _CardBody(news: this.news),
+        SizedBox(height: 10,),
+        Divider()
       ],
+    );
+  }
+}
+
+class _CardBody extends StatelessWidget {
+  final Article news;
+
+  const _CardBody({@required this.news});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      margin: EdgeInsets.only(bottom: 10),
+      child: (news.description != null) ? Text(news.description) : '',
     );
   }
 }
@@ -48,7 +66,17 @@ class _CardImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Imagen'),
+      margin: EdgeInsets.symmetric(vertical: 20),
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+        child: Container(
+            child: (news.urlToImage != null)
+                ? FadeInImage(
+                    placeholder: AssetImage('assets/img/giphy.gif'),
+                    image: NetworkImage(news.urlToImage))
+                : Image(image: AssetImage('assets/img/no-image.png'))),
+      ),
     );
   }
 }
@@ -78,7 +106,7 @@ class _CardTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),
-      margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(bottom: 10, top: 10),
       child: Row(
         children: <Widget>[
           Text(

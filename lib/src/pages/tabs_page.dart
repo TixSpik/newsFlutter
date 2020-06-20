@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newsapp/src/pages/tab1_page.dart';
+import 'package:newsapp/src/pages/tab2_page.dart';
 import 'package:provider/provider.dart';
 
 class TabsPage extends StatelessWidget {
@@ -8,6 +9,10 @@ class TabsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => _NavigationModel(),
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black54,
+          title: const Text('News Today'),
+        ),
         body: _Pages(),
         bottomNavigationBar: _BottomNav(),
       ),
@@ -19,10 +24,10 @@ class _BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navigationModel = Provider.of<_NavigationModel>(context);
-
+    
     return BottomNavigationBar(
         currentIndex: navigationModel.currentPage,
-        onTap: (i) => navigationModel.currentPage = i,
+        onTap: (i) => {navigationModel.currentPage = i},
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.person_outline), title: Text('para ti')),
@@ -37,14 +42,11 @@ class _Pages extends StatelessWidget {
   Widget build(BuildContext context) {
     final navigationModel = Provider.of<_NavigationModel>(context);
 
-    return PageView(
-      controller: navigationModel.pageController,
+    return PageView(      
+      controller: navigationModel.pageController, 
       physics: BouncingScrollPhysics(),
-      onPageChanged:  (i) => navigationModel.currentPage = i,
-      children: <Widget>[
-        Tab1Page(),
-        Container(color: Colors.blue)
-      ],
+      onPageChanged: (i) => navigationModel.currentPage = i,
+      children: <Widget>[Tab1Page(), Tab2Page()],
     );
   }
 }
@@ -57,11 +59,8 @@ class _NavigationModel with ChangeNotifier {
 
   set currentPage(int value) {
     this._currentPage = value;
-    _pageController
-      .animateToPage(
-        value,
-        duration: Duration(milliseconds: 300), 
-        curve: Curves.easeOut);
+    _pageController.animateToPage(value,
+        duration: Duration(milliseconds: 300), curve: Curves.easeOut);
 
     notifyListeners();
   }

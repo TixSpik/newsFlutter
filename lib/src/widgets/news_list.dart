@@ -53,7 +53,7 @@ class _CardBody extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       margin: EdgeInsets.only(bottom: 10),
-      child: (news.description != null) ? Text(news.description) : '',
+      child: (news.description != null) ? Text(news.description) : Text(''),
     );
   }
 }
